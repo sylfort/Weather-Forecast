@@ -5,12 +5,12 @@ import org.json.simple.*;
 import org.json.simple.parser.*;
 import java.util.ArrayList;
 
-public class WeatherForecastServer2 {
+public class WeatherForecastServer3Buttons {
 	public static int cityCode;
 	
 	public static void main(String[] args) {
 		try {
-			ServerSocket serverSocket = new ServerSocket(5007);
+			ServerSocket serverSocket = new ServerSocket(5008);
 			while(true) {
 				Socket socket = serverSocket.accept();
 				System.out.println("server ready");
