@@ -10,7 +10,7 @@ import org.json.simple.parser.*;
 
 import java.util.Arrays;
 
-public class WeatherForecastClient extends JFrame implements ActionListener {
+public class WeatherForecastClient3Buttons extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		new WeatherForecastClient();
@@ -22,7 +22,7 @@ public class WeatherForecastClient extends JFrame implements ActionListener {
 	JButton button2 = new JButton("大阪");
 	JButton button3 = new JButton("東京");
 	
-	public WeatherForecastClient() {
+	public WeatherForecastClient3Buttons() {
 		setTitle("test");
 		
 //		getContentPane().setLayout(new GridLayout(2,1));
@@ -52,31 +52,44 @@ public class WeatherForecastClient extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent ae) {
 		
 		if (ae.getSource() == button1) {
-			getWeather("kobe");
+			sendReq("kobe");
 			System.out.println("ボタン１が押されました");
 			
 		}
 		if (ae.getSource() == button2) {
 			System.out.println("ボタン２が押されました");
-			getWeather("osaka");
+			sendReq("osaka");
 		}
 		
 		if (ae.getSource() == button3) {
 			System.out.println("ボタン3が押されました");
-			getWeather("tokyo");
+			sendReq("tokyo");
 		}
 		
-		
+		getWeather();
 		
 	}
 	
-	public void getWeather(String cityName) {
+	public void sendReq(String cityName) {
 		try {
-			Socket socket = new Socket("127.0.0.1", 5007);
+			Socket socket = new Socket("127.0.0.1", 5008);
 			PrintWriter pw =  new PrintWriter(socket.getOutputStream());
 			pw.print(cityName);
 			pw.close();
 			System.out.println("cityName was sent");
+		} catch (MalformedURLException e) {
+			System.out.println("MalformedURLException22");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("IOException22");
+            e.printStackTrace();
+		} 
+	}
+	
+	public void getWeather() {
+		
+		try {
+			Socket socket = new Socket("127.0.0.1", 5008);
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			StringBuilder response = new StringBuilder();
