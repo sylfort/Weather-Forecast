@@ -8,12 +8,10 @@ import java.awt.event.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
-import java.util.Arrays;
-
 public class WeatherForecastClient3Buttons extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
-		new WeatherForecastClient();
+		new WeatherForecastClient3Buttons();
 	}
 	
 	JTextArea textArea = new JTextArea(5, 20);
@@ -52,27 +50,28 @@ public class WeatherForecastClient3Buttons extends JFrame implements ActionListe
 	public void actionPerformed(ActionEvent ae) {
 		
 		if (ae.getSource() == button1) {
-			sendReq("kobe");
+			sendReq("280010");
 			System.out.println("ボタン１が押されました");
 			
 		}
 		if (ae.getSource() == button2) {
 			System.out.println("ボタン２が押されました");
-			sendReq("osaka");
+			sendReq("270000");
 		}
 		
 		if (ae.getSource() == button3) {
 			System.out.println("ボタン3が押されました");
-			sendReq("tokyo");
+			sendReq("130010");
 		}
-		
-		getWeather();
+//		if(cityName == "kobe") {cityCode = 280010;}
+//		if(cityName == "osaka") {cityCode = 270000;}
+//		if(cityName == "tokyo") {cityCode = 130010;}
 		
 	}
 	
 	public void sendReq(String cityName) {
 		try {
-			Socket socket = new Socket("127.0.0.1", 5008);
+			Socket socket = new Socket("127.0.0.1", 5009);
 			PrintWriter pw =  new PrintWriter(socket.getOutputStream());
 			pw.print(cityName);
 			pw.close();
@@ -84,20 +83,22 @@ public class WeatherForecastClient3Buttons extends JFrame implements ActionListe
 			System.out.println("IOException22");
             e.printStackTrace();
 		} 
+		getWeather();
 	}
 	
 	public void getWeather() {
 		
 		try {
-			Socket socket = new Socket("127.0.0.1", 5008);
+			Socket socket = new Socket("127.0.0.1", 5009);
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			StringBuilder response = new StringBuilder();
             String s;
             while ((s = reader.readLine()) != null) {
                 response.append(s);
+                System.out.println(s);
             }
-            reader.close();
+//            reader.close();
             
             JSONParser parser = new JSONParser();
 
