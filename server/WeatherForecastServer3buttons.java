@@ -10,14 +10,14 @@ public class WeatherForecastServer3Buttons {
 	
 	public static void main(String[] args) {
 		try {
-			ServerSocket serverSocket = new ServerSocket(5008);
+			ServerSocket serverSocket = new ServerSocket(5009);
+			System.out.println("server ready");
 			while(true) {
 				Socket socket = serverSocket.accept();
-				System.out.println("server ready");
 				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	            String s = reader.readLine();
 	            System.out.println(s);
-	            reader.close();
+//	            reader.close();
 	            
 				PrintWriter writer =  new PrintWriter(socket.getOutputStream());
 				
@@ -32,15 +32,16 @@ public class WeatherForecastServer3Buttons {
 		}
 	}
 	
-	private static JSONObject getWeatherForecast(String cityName) {
+	private static JSONObject getWeatherForecast(String city) {
 		JSONObject weatherData = new JSONObject();
 		
-		if(cityName == "kobe") cityCode = 280010;
-		if(cityName == "osaka") cityCode = 270000;
-		if(cityName == "tokyo") cityCode = 130010;
 		
 		try {
-			String apiUrl = "https://weather.tsukumijima.net/api/forecast/city/" + cityCode;
+//			if(cityName == "kobe") {cityCode = 280010;}
+//			if(cityName == "osaka") {cityCode = 270000;}
+//			if(cityName == "tokyo") {cityCode = 130010;}
+			System.out.println(city);
+			String apiUrl = ("https://weather.tsukumijima.net/api/forecast/city/" + city.toString());
 			final URL url = new URL(apiUrl);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
